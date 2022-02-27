@@ -1,4 +1,5 @@
 #include "cache_set.h"
+#include "cache_set_fan.h"
 #include "cache_set_lru.h"
 #include "cache_set_mru.h"
 #include "cache_set_nmru.h"
@@ -163,8 +164,8 @@ CacheSet::createCacheSet(String cfgname, core_id_t core_id,
    case CacheBase::RANDOM:
       return new CacheSetRandom(cache_type, associativity, blocksize);
 
-      // case CacheBase::FAN:
-      //    return new CacheSetFAN(cache_type, associativity, blocksize);
+   case CacheBase::FAN:
+      return new CacheSetFan(cache_type, associativity, blocksize);
 
    default:
       LOG_PRINT_ERROR("Unrecognized Cache Replacement Policy: %i",

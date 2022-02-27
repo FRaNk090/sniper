@@ -15,6 +15,8 @@ public:
 
 private:
     Random m_rand;
+    UInt8* m_fan_bits;
+    UInt32 findIndexInRest();
 };
 
 #endif /* CACHE_SET_RANDOM_H */
