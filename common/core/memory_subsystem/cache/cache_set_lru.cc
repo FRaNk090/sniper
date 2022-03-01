@@ -9,7 +9,7 @@ CacheSetLRU::CacheSetLRU(
     UInt32 associativity, UInt32 blocksize, CacheSetInfoLRU *set_info, UInt8 num_attempts)
     : CacheSet(cache_type, associativity, blocksize), m_num_attempts(num_attempts), m_set_info(set_info)
 {
-   printf("In cache set lru function\n");
+   // printf("In cache set lru function\n");
    m_lru_bits = new UInt8[m_associativity];
    for (UInt32 i = 0; i < m_associativity; i++)
       m_lru_bits[i] = i;
@@ -17,7 +17,7 @@ CacheSetLRU::CacheSetLRU(
 
 CacheSetLRU::~CacheSetLRU()
 {
-   printf("In ~ cache set lru function\n");
+   // printf("In ~ cache set lru function\n");
    delete[] m_lru_bits;
 }
 
@@ -25,7 +25,7 @@ UInt32
 CacheSetLRU::getReplacementIndex(CacheCntlr *cntlr)
 {
    // First try to find an invalid block
-   printf("In get replacement index function\n");
+   // printf("In get replacement index function\n");
    for (UInt32 i = 0; i < m_associativity; i++)
    {
       if (!m_cache_block_info_array[i]->isValid())
@@ -71,7 +71,7 @@ CacheSetLRU::getReplacementIndex(CacheCntlr *cntlr)
          // Mark our newly-inserted line as most-recently used
          moveToMRU(index);
          m_set_info->incrementAttempt(attempt);
-         printf("The index is %" PRId32 "\n", index);
+         // printf("The index is %" PRId32 "\n", index);
          return index;
       }
    }
@@ -81,14 +81,14 @@ CacheSetLRU::getReplacementIndex(CacheCntlr *cntlr)
 
 void CacheSetLRU::updateReplacementIndex(UInt32 accessed_index)
 {
-   printf("In update replacement index function\n");
+   // printf("In update replacement index function\n");
    m_set_info->increment(m_lru_bits[accessed_index]);
    moveToMRU(accessed_index);
 }
 
 void CacheSetLRU::moveToMRU(UInt32 accessed_index)
 {
-   printf("In move to MRU function\n");
+   // printf("In move to MRU function\n");
    for (UInt32 i = 0; i < m_associativity; i++)
    {
       if (m_lru_bits[i] < m_lru_bits[accessed_index])
@@ -100,7 +100,7 @@ void CacheSetLRU::moveToMRU(UInt32 accessed_index)
 CacheSetInfoLRU::CacheSetInfoLRU(String name, String cfgname, core_id_t core_id, UInt32 associativity, UInt8 num_attempts)
     : m_associativity(associativity), m_attempts(NULL)
 {
-   printf("Cache set info lru function\n");
+   // printf("Cache set info lru function\n");
    m_access = new UInt64[m_associativity];
    for (UInt32 i = 0; i < m_associativity; ++i)
    {

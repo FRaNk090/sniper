@@ -31,7 +31,7 @@ UInt32
 CacheSetFan::getReplacementIndex(CacheCntlr *cntlr)
 {
     // Invalidations may mess up the Fan bits
-    printf("In get replcement indec");
+    // printf("In get replcement indec");
     UInt32 candidate;
     for (UInt32 i = 0; i < m_associativity; i++)
     {
@@ -85,10 +85,10 @@ void CacheSetFan::updateReplacementIndex(UInt32 accessed_index)
 
 UInt32 CacheSetFan::findIndexInRest()
 {
-    printf("Finding index\n");
+    // printf("Finding index\n");
     UInt32 index = (m_rand.next() % m_associativity);
-    printf("%i and %i but selected %i\n", m_fan_bits[0], m_fan_bits[1], index);
-    printf("associativity is %i\n", m_associativity);
+    // printf("%i and %i but selected %i\n", m_fan_bits[0], m_fan_bits[1], index);
+    // printf("associativity is %i\n", m_associativity);
     if (isValidReplacement(index) && index != m_fan_bits[0] && index != m_fan_bits[1])
     {
         return index;
