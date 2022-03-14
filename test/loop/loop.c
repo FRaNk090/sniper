@@ -23,11 +23,14 @@ int main()
 
     for (int i = 0; i < size; i++)
     {
-        // c[i] = SimFan(a[i], b[i]);
-        c[i] = a[i] + b[i];
+        c[i] = SimFan(a[i], b[i]);
+        // c[i] = a[i] + b[i];
     }
+
+    // SimFan(a, b, c, size - 1);
     printf("In main\n");
-    // print(c, size);
+    print(c, size);
+    // printf("\tmov %2(, %%" MAGIC_REG_B ", 4), %%" MAGIC_REG_C "\n");
 
     SimRoiEnd();
     return 0;
