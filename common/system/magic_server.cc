@@ -11,6 +11,7 @@
 #include "stats.h"
 #include "timer.h"
 #include "thread.h"
+#include <sys/shm.h>
 
 MagicServer::MagicServer()
       : m_performance_enabled(false)
@@ -99,6 +100,34 @@ UInt64 MagicServer::Magic_unlocked(thread_id_t thread_id, core_id_t core_id, UIn
          return setInstrumentationMode(arg0);
       case SIM_CMD_MHZ_GET:
          return getFrequency(arg0);
+      case SIM_CMD_FAN:
+      {
+         std::cout << (key_t) arg0 << " " << arg1 << std::endl;
+         int shmid = shmget((key_t) arg0, arg1, IPC_CREAT | 0666);
+         void* shm = shmat(shmid, nullptr, 0);
+
+         auto rsp = (size_t*) shm;
+         size_t arr_size = *rsp;
+
+         auto arr1 = (int*) (rsp + 1);
+         auto arr2 = arr1 + arr_size;
+
+         std::cout << "Magic server received:" << std::endl;
+         for (size_t i = 0; i < arr_size; ++i){
+            arr1[i] += arr2[i];
+            std::cout << arr1[i] << " ";
+         }
+         std::cout << std::endl;
+
+         if (shmdt(shm) == -1){
+            perror("shmdt");
+            return -1;
+         }
+
+         return 0;
+      }
+         
+
       default:
          LOG_ASSERT_ERROR(false, "Got invalid Magic %lu, arg0(%lu) arg1(%lu)", cmd, arg0, arg1);
    }

@@ -163,7 +163,7 @@
 #define SimUser(cmd, arg) SimMagic2(SIM_CMD_USER, cmd, arg)
 #define SimSetInstrumentMode(opt) SimMagic1(SIM_CMD_INSTRUMENT_MODE, opt)
 #define SimInSimulator() (SimMagic0(SIM_CMD_IN_SIMULATOR) != SIM_CMD_IN_SIMULATOR)
-#define SimFan(arg0, arg1) SimMagic3(SIM_CMD_FAN, arg0, arg1)
+#define SimFan(arg0, arg1) SimMagic2(SIM_CMD_FAN, arg0, arg1)
 // #define SimFan(arg0, arg1, arg2, arg3) SimMagic3(SIM_CMD_FAN, arg0, arg1, arg2, arg3)
 
 #endif /* __SIM_API */
