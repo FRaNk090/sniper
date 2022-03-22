@@ -392,6 +392,7 @@ bool Sift::Reader::Read(Instruction &inst)
             }
             case RecOtherMagicInstruction:
             {
+               std::cout << "In the case of other magic instruction" << std::endl;
                assert(rec.Other.size == 3 * sizeof(uint64_t));
                uint64_t a, b, c;
                input->read(reinterpret_cast<char*>(&a), sizeof(uint64_t));
@@ -400,6 +401,7 @@ bool Sift::Reader::Read(Instruction &inst)
                uint64_t result;
                if (handleMagicFunc)
                {
+                  std::cout << "In handleMagic Function if" << std::endl;
                   result = handleMagicFunc(handleMagicArg, a, b, c);
                }
                else

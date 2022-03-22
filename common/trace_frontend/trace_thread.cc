@@ -248,6 +248,7 @@ int32_t TraceThread::handleJoinFunc(int32_t join_thread_id)
 
 uint64_t TraceThread::handleMagicFunc(uint64_t a, uint64_t b, uint64_t c)
 {
+   std::cout << "i'm in handleMagicFunc" << std::endl;
    return handleMagicInstruction(m_thread->getId(), a, b, c);
 }
 
@@ -421,6 +422,7 @@ Instruction* TraceThread::decode(Sift::Instruction &inst)
 
 Sift::Mode TraceThread::handleInstructionCountFunc(uint32_t icount)
 {
+   std::cout << "In handle instruction count function " << icount <<std::endl;
    if (!m_started)
    {
       // Received first instruction, let TraceManager know our SIFT connection is up and running
@@ -443,6 +445,7 @@ Sift::Mode TraceThread::handleInstructionCountFunc(uint32_t icount)
    {
       // We're in detailed mode, but our SIFT recorder doesn't know it yet
       // Do something to advance time
+      std::cout << "In side detail mode handling" << std::endl;
       core->getPerformanceModel()->queuePseudoInstruction(new UnknownInstruction(icount * core->getDvfsDomain()->getPeriod()));
       core->getPerformanceModel()->iterate();
    }
@@ -633,7 +636,7 @@ void TraceThread::handleInstructionDetailed(Sift::Instruction &inst, Sift::Instr
 {
 
    // Set up instruction
-
+   std::cout << "In handle instruction detail function" << std::endl;
    if (m_icache.count(inst.sinst->addr) == 0)
       m_icache[inst.sinst->addr] = decode(inst);
    // Here get the decoder instruction without checking, because we must have it for sure
@@ -778,7 +781,7 @@ void TraceThread::run()
    // Received first instruction, let TraceManager know our SIFT connection is up and running
    Sim()->getTraceManager()->signalStarted();
    m_started = true;
-
+   std::cout << "before while" << std::endl;
    while(have_first && m_trace.Read(next_inst))
    {
       if (m_blocked)
@@ -825,6 +828,7 @@ void TraceThread::run()
             break;
 
          case InstMode::DETAILED:
+            std::cout << "In case of detail mode" << std::endl;
             handleInstructionDetailed(inst, next_inst, prfmdl);
             break;
 
